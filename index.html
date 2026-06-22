@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PQQ - Kĩ Năng</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            /* Hình nền thiên nhiên trong sáng */
+            background-image: url('https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .overlay {
+            /* Lớp phủ hơi mờ nhẹ để làm nổi bật nội dung mà không mất cảnh thiên nhiên */
+            background-color: rgba(255, 255, 255, 0.4);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            color: #1a523b;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Thanh tìm kiếm */
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            outline: none;
+            transition: all 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .search-container input:focus {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            background-color: #fff;
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        /* Lưới hiển thị các thẻ kỹ năng */
+        .skills-grid {
+            max-width: 1200px;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .skill-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            padding: 30px 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #333;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            background: #ffffff;
+        }
+
+        .skill-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            color: #2c7a51; /* Màu xanh lá cây đậm hài hòa với thiên nhiên */
+        }
+
+        .skill-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .skill-desc {
+            font-size: 0.95em;
+            color: #555;
+        }
+
+        /* Lời nhắn khi không tìm thấy kết quả */
+        .no-result {
+            text-align: center;
+            width: 100%;
+            font-size: 1.2em;
+            color: #555;
+            display: none;
+            background: rgba(255,255,255,0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="overlay">
+    <div class="header">
+        <h1>PQQ - Kĩ Năng</h1>
+        <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" onkeyup="searchSkills()" placeholder="Tìm kiếm kỹ năng bạn cần...">
+        </div>
+    </div>
+
+    <div class="skills-grid" id="skillsGrid">
+        
+        <a href="https://lelevietnam99.github.io/KINHNGHIEM_MANLED/" target="_blank" class="skill-card">
+            <div class="skill-icon">
+                <i class="fa-solid fa-tv"></i>
+            </div>
+            <div class="skill-title">Kinh Nghiệm Lắp Màn LED</div>
+            <div class="skill-desc">Tổng hợp thông số, đi dây, cấu hình nguồn và bộ xử lý chi tiết.</div>
+        </a>
+
+
+        <div id="noResult" class="no-result">Không tìm thấy kỹ năng nào phù hợp!</div>
+    </div>
+</div>
+
+<script>
+    // Hàm thực hiện tính năng tìm kiếm
+    function searchSkills() {
+        var input, filter, grid, cards, title, i, txtValue;
+        var hasResult = false;
+        
+        input = document.getElementById('searchInput');
+        filter = input.value.toUpperCase();
+        grid = document.getElementById('skillsGrid');
+        cards = grid.getElementsByClassName('skill-card');
+        
+        for (i = 0; i < cards.length; i++) {
+            title = cards[i].getElementsByClassName('skill-title')[0];
+            if (title) {
+                txtValue = title.textContent || title.innerText;
+                // Nếu tên kỹ năng có chứa từ khóa tìm kiếm
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    cards[i].style.display = "flex";
+                    hasResult = true;
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }       
+        }
+
+        // Hiển thị thông báo nếu không có kết quả
+        var noResultDiv = document.getElementById('noResult');
+        if (!hasResult && filter !== "") {
+            noResultDiv.style.display = "block";
+        } else {
+            noResultDiv.style.display = "none";
+        }
+    }
+</script>
+
+</body>
+</html>
